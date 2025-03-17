@@ -4,3 +4,12 @@ public:
 	wxGridSizer* calculatorGridSizer;
 };
 
+#include "Calculator.h"
+int main(){
+	
+	wxBoxSizer* calculatorButtonGrid = new wxBoxSizer(wxVERTICAL);
+
+	Calculator::calculatorDisplay = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefualtSize, wxTE_RIGHT);
+
+
+}
