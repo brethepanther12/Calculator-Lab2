@@ -1,0 +1,6 @@
+class Calculator{
+public:
+	wxTextCtrl* calculatorDisplay;
+	wxGridSizer* calculatorGridSizer;
+};
+
