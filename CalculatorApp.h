@@ -1,17 +1,27 @@
 #pragma once
-#include "wx/wx.h"
-class CalculatorWindow: public wxFrame {
+#include <wx/wx.h>
+#include <vector>
+#include <string>
+#include <exception>
+#include <wx/tokenzr.h>
+
+class CalculatorWindow : public wxFrame {
 public:
-	CalculatorWindow(const wxString& title);
+    CalculatorWindow(const wxString& title);
+    ~CalculatorWindow();
 
 private:
-	wxTextCtrl* calc_TextCtrl;
+    wxPanel* calc_Panel;
+    wxTextCtrl* calc_TextCtrl;
+    wxGridSizer* calc_ButtonGrid;
 
-	void CalculatorUI();
+    static const int BUTTON_BASE_ID = 1000;
 
-	void OnButtonClicked(wxCommandEvent& event);
+    void OnButtonClicked(wxCommandEvent& event);
+    std::vector<wxString> Tokenize(const wxString& input);
+    double EvaluateExpression(const std::vector<wxString>& tokens);
 
-	wxDECLARE_EVENT_TABLE();
+    wxDECLARE_EVENT_TABLE();
 };
 class CalculatorApp : public wxApp
 {
