@@ -16,6 +16,7 @@ class ButtonFactory
 	static wxButton* CreateClearButton(wxWindow* parent, int id);
 	static wxButton* CreateDeleteButton(wxWindow* parent, int id);
 	static wxButton* CreateEqualsButton(wxWindow* parent, int id);
+	static wxButton* CreateDecimalButton(wxWindow* parent, int id);
 	static wxButton* CreateSignageButton(wxWindow* parent, int id);
 
 	static wxButton* CreateSinButton(wxWindow* parent, int id);

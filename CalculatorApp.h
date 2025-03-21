@@ -4,6 +4,7 @@
 #include <string>
 #include <exception>
 #include <wx/tokenzr.h>
+#include "ButtonFactory.h"
 
 class CalculatorWindow : public wxFrame {
 public:

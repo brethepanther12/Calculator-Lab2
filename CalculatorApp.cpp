@@ -43,23 +43,43 @@ CalculatorWindow::CalculatorWindow(const wxString& title) : wxFrame(nullptr, wxI
 
 
     calc_ButtonGrid = new wxGridSizer(5, 5, 5, 5);
-
-   
-    wxString buttonLabels[] = {
-        "7", "8", "9", "/", "Clear",
-        "4", "5", "6", "*", "Delete",
-        "1", "2", "3", "-", "+/-",
-        "0", ".", "=", "+", "sin",
-        "cos", "tan", "%", "(", ")"
-    };
-
     
-    for (int i = 0; i < 25; ++i) {
-        wxButton* button = new wxButton(calc_Panel, BUTTON_BASE_ID + i, buttonLabels[i]);
-        calc_ButtonGrid->Add(button, 0, wxEXPAND | wxALL, 5); 
+    for (int i = 0; i < 9; i++) {
+        calc_ButtonGrid->Add(ButtonFactory::CreateNumbersButton(calc_Panel, BUTTON_BASE_ID + i, wxString::Format("%d", i)), 0, wxEXPAND | wxALL, 5);
     }
+   
+    calc_ButtonGrid->Add(ButtonFactory::CreateAddButton(calc_Panel, BUTTON_BASE_ID + 10), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateSubtractButton(calc_Panel, BUTTON_BASE_ID + 11), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateMultiplyButton(calc_Panel, BUTTON_BASE_ID + 12), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateDivideButton(calc_Panel, BUTTON_BASE_ID + 13), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateDecimalButton(calc_Panel, BUTTON_BASE_ID + 14), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateModuloButton(calc_Panel, BUTTON_BASE_ID + 15), 0, wxEXPAND | wxALL, 5);
 
-  
+    calc_ButtonGrid->Add(ButtonFactory::CreateSinButton(calc_Panel, BUTTON_BASE_ID + 16), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateCosButton(calc_Panel, BUTTON_BASE_ID + 17), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateTanButton(calc_Panel, BUTTON_BASE_ID + 18), 0, wxEXPAND | wxALL, 5);
+
+    calc_ButtonGrid->Add(ButtonFactory::CreateClearButton(calc_Panel, BUTTON_BASE_ID + 19), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateDeleteButton(calc_Panel, BUTTON_BASE_ID + 20), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateSignageButton(calc_Panel, BUTTON_BASE_ID + 21), 0, wxEXPAND | wxALL, 5);
+    calc_ButtonGrid->Add(ButtonFactory::CreateEqualsButton(calc_Panel, BUTTON_BASE_ID + 22), 0, wxEXPAND | wxALL, 5);
+
+    /*
+wxString buttonLabels[] = {
+     "7", "8", "9", "/", "Clear",
+     "4", "5", "6", "*", "Delete",
+     "1", "2", "3", "-", "+/-",
+     "0", ".", "=", "+", "sin",
+     "cos", "tan", "%"
+ };
+
+  for (int i = 0; i < 25; ++i) {
+     wxButton* button = new wxButton(calc_Panel, BUTTON_BASE_ID + i, buttonLabels[i]);
+     calc_ButtonGrid->Add(button, 0, wxEXPAND | wxALL, 5);
+ }
+*/
+
+
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(calc_TextCtrl, 0, wxEXPAND | wxALL, 5);
     sizer->Add(calc_ButtonGrid, 1, wxEXPAND, 5);
