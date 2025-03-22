@@ -5,6 +5,7 @@
 #include <exception>
 #include <wx/tokenzr.h>
 #include "ButtonFactory.h"
+#include "Calculator_Processor.h"
 
 class CalculatorWindow : public wxFrame {
 public:
@@ -19,8 +20,10 @@ private:
     static const int BUTTON_BASE_ID = 1000;
 
     void OnButtonClicked(wxCommandEvent& event);
+    void OnEqualButtonClick(wxCommandEvent& event);
     std::vector<wxString> Tokenize(const wxString& input);
     double EvaluateExpression(const std::vector<wxString>& tokens);
+
 
     wxDECLARE_EVENT_TABLE();
 };

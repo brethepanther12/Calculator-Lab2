@@ -58,7 +58,7 @@ std::vector<std::string> Calculator_Processor::ShuntingYard(std::vector<std::str
 	std::vector<std::string> output;
 	std::stack<std::string> operatorStack;
 
-	for (const std::vector<std::string>::iterator::value_type& token : tokens) {
+	for (const std::string& token : tokens) {
 		if (isdigit(token[0] || token[0] == '-' && token.size() > 1)) {
 			output.push_back(token);
 		}
@@ -82,7 +82,7 @@ double Calculator_Processor::Evaluation(const std::vector<std::string>& evaluate
 {
 	std::stack<double> evaluatedStack;
 
-	for (const std::vector<std::string>::const_iterator::value_type& token : evaluate) {
+	for (const std::string& token : evaluate) {
 		if (IsOperator(token)) {
 			double a, b;
 			a = evaluatedStack.top(); evaluatedStack.pop();

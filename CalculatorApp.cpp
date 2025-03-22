@@ -24,7 +24,7 @@ EVT_BUTTON(BUTTON_BASE_ID + 18, CalculatorWindow::OnButtonClicked)
 EVT_BUTTON(BUTTON_BASE_ID + 19, CalculatorWindow::OnButtonClicked)
 EVT_BUTTON(BUTTON_BASE_ID + 20, CalculatorWindow::OnButtonClicked)
 EVT_BUTTON(BUTTON_BASE_ID + 21, CalculatorWindow::OnButtonClicked)
-EVT_BUTTON(BUTTON_BASE_ID + 22, CalculatorWindow::OnButtonClicked)
+EVT_BUTTON(BUTTON_BASE_ID + 22, CalculatorWindow::OnEqualButtonClick)
 wxEND_EVENT_TABLE()
 
 wxIMPLEMENT_APP(CalculatorApp);
@@ -112,15 +112,6 @@ void CalculatorWindow::OnButtonClicked(wxCommandEvent & event) {
                 calc_TextCtrl->SetValue(value);
             }
         }
-        else if (label == "=") {
-            if (value.IsEmpty()) {
-                wxMessageBox("Textbox is empty.");
-                return;
-            }
-            std::vector<wxString> tokens = Tokenize(value);
-            double result = EvaluateExpression(tokens);
-            calc_TextCtrl->SetValue(wxString::Format("%.2f", result));
-        }
         else if (label == "sin" || label == "cos" || label == "tan") {
             calc_TextCtrl->AppendText(label + "(");
         }
@@ -144,53 +135,67 @@ void CalculatorWindow::OnButtonClicked(wxCommandEvent & event) {
     }
 }
 
+void CalculatorWindow::OnEqualButtonClick(wxCommandEvent& event)
+{
+    std::string expression = calc_TextCtrl->GetValue().ToStdString();
 
-std::vector<wxString> CalculatorWindow::Tokenize(const wxString& input) {
-    std::vector<wxString> tokens;
-    wxString number;
-    wxString _operators = "+-*/";
+    try {
+        double result = Calculator_Processor::GetCalculation()->Calculate(expression);
+        calc_TextCtrl->SetValue(std::to_string(result));
 
-    for (size_t i = 0; i < input.Length(); ++i) {
-        wxChar ch = input[i];
-
-        if (wxIsspace(ch)) continue; // skip spaces
-
-        if (_operators.Find(ch) != wxNOT_FOUND) {
-            if (!number.IsEmpty()) {
-                tokens.push_back(number);
-                number.clear();
-            }
-            tokens.push_back(wxString(ch));
-        }
-        else {
-            number += ch;
-        }
     }
-
-    if (!number.IsEmpty()) {
-        tokens.push_back(number);
+    catch (const std::exception& error) {
+        calc_TextCtrl->SetValue("Error");
     }
-
-    return tokens;
 }
 
 
-double CalculatorWindow::EvaluateExpression(const std::vector<wxString>& tokens) {
-    if (tokens.size() != 3) {
-        throw std::runtime_error("Invalid expression. Expected format: <num> <op> <num>");
-    }
-
-    double lhs = wxAtof(tokens[0]);
-    wxString _operator = tokens[1];
-    double rhs = wxAtof(tokens[2]);
-
-    if (_operator == "+") return lhs + rhs;
-    if (_operator == "-") return lhs - rhs;
-    if (_operator == "*") return lhs * rhs;
-    if (_operator == "/") {
-        if (rhs == 0) throw std::runtime_error("Division by zero");
-        return lhs / rhs;
-    }
-
-    throw std::runtime_error("Unknown operator");
-}
+//std::vector<wxString> CalculatorWindow::Tokenize(const wxString& input) {
+//    std::vector<wxString> tokens;
+//    wxString number;
+//    wxString _operators = "+-*/";
+//
+//    for (size_t i = 0; i < input.Length(); ++i) {
+//        wxChar ch = input[i];
+//
+//        if (wxIsspace(ch)) continue; // skip spaces
+//
+//        if (_operators.Find(ch) != wxNOT_FOUND) {
+//            if (!number.IsEmpty()) {
+//                tokens.push_back(number);
+//                number.clear();
+//            }
+//            tokens.push_back(wxString(ch));
+//        }
+//        else {
+//            number += ch;
+//        }
+//    }
+//
+//    if (!number.IsEmpty()) {
+//        tokens.push_back(number);
+//    }
+//
+//    return tokens;
+//}
+//
+//
+//double CalculatorWindow::EvaluateExpression(const std::vector<wxString>& tokens) {
+//    if (tokens.size() != 3) {
+//        throw std::runtime_error("Invalid expression. Expected format: <num> <op> <num>");
+//    }
+//
+//    double lhs = wxAtof(tokens[0]);
+//    wxString _operator = tokens[1];
+//    double rhs = wxAtof(tokens[2]);
+//
+//    if (_operator == "+") return lhs + rhs;
+//    if (_operator == "-") return lhs - rhs;
+//    if (_operator == "*") return lhs * rhs;
+//    if (_operator == "/") {
+//        if (rhs == 0) throw std::runtime_error("Division by zero");
+//        return lhs / rhs;
+//    }
+//
+//    throw std::runtime_error("Unknown operator");
+//}
