@@ -59,10 +59,12 @@ std::vector<std::string> Calculator_Processor::ShuntingYard(std::vector<std::str
 	std::stack<std::string> operatorStack;
 
 	for (const std::string& token : tokens) {
-		if (isdigit(token[0] || token[0] == '-' && token.size() > 1)) {
-			output.push_back(token);
+		if (isdigit(token[0]) || (token[0] == '-' && token.size() > 1 && isdigit(token[1]))) {
+			output.push_back(token); 
 		}
-		else if (IsFunction(token)) { operatorStack.push(token); }
+		else if (IsFunction(token)) {
+			operatorStack.push(token);
+		}
 		else if (IsOperator(token)) {
 			while (!operatorStack.empty() && Precedence(operatorStack.top()) >= Precedence(token)) {
 				output.push_back(operatorStack.top());
@@ -71,10 +73,12 @@ std::vector<std::string> Calculator_Processor::ShuntingYard(std::vector<std::str
 			operatorStack.push(token);
 		}
 	}
+
 	while (!operatorStack.empty()) {
 		output.push_back(operatorStack.top());
 		operatorStack.pop();
 	}
+
 	return output;
 }
 
@@ -84,17 +88,25 @@ double Calculator_Processor::Evaluation(const std::vector<std::string>& evaluate
 
 	for (const std::string& token : evaluate) {
 		if (IsOperator(token)) {
-			double a, b;
-			a = evaluatedStack.top(); evaluatedStack.pop();
-			b = evaluatedStack.top(); evaluatedStack.pop();
+			if (evaluatedStack.size() < 2) {
+				throw std::runtime_error("Insufficient operands for operator " + token);
+			}
+			double b = evaluatedStack.top(); evaluatedStack.pop();
+			double a = evaluatedStack.top(); evaluatedStack.pop();
 
 			if (token == "+") { evaluatedStack.push(a + b); }
 			else if (token == "-") { evaluatedStack.push(a - b); }
 			else if (token == "*") { evaluatedStack.push(a * b); }
-			else if (token == "/") { evaluatedStack.push(a / b); }
+			else if (token == "/") {
+				if (b == 0) throw std::runtime_error("Division by zero");
+				evaluatedStack.push(a / b);
+			}
 			else if (token == "%") { evaluatedStack.push(fmod(a, b)); }
 		}
 		else if (IsFunction(token)) {
+			if (evaluatedStack.empty()) {
+				throw std::runtime_error("Insufficient operands for function " + token);
+			}
 			double value = evaluatedStack.top(); evaluatedStack.pop();
 			if (token == "sin") { evaluatedStack.push(sin(value)); }
 			else if (token == "cos") { evaluatedStack.push(cos(value)); }
@@ -103,6 +115,10 @@ double Calculator_Processor::Evaluation(const std::vector<std::string>& evaluate
 		else {
 			evaluatedStack.push(std::stod(token));
 		}
+	}
+
+	if (evaluatedStack.empty()) {
+		throw std::runtime_error("Evaluation resulted in an empty stack.");
 	}
 	return evaluatedStack.top();
 }
