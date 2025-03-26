@@ -17,7 +17,6 @@ public:
 	
 	double Calculate(const std::string& expression);
 
-private: 
 	std::vector<std::string> Tokenize(const std::string& expression);
 	std::vector<std::string> ShuntingYard(std::vector<std::string>& tokens);
 	double Evaluation(const std::vector<std::string>& evaluate);

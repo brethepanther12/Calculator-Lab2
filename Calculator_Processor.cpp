@@ -1,3 +1,4 @@
+
 #include "Calculator_Processor.h"
 Calculator_Processor* Calculator_Processor::_calculation= nullptr;
 
