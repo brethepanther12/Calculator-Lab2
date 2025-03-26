@@ -40,6 +40,7 @@
     <ProjectGuid>{4f354f19-ce3d-4572-aac8-8bce3ca56b13}</ProjectGuid>
     <RootNamespace>CalculatorDesignUIandEventHandling</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CalculatorDesign-UI&amp;EventHandling</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
